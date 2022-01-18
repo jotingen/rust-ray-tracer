@@ -1,3 +1,16 @@
+mod Vec3;
+
+use crate::Vec3::Color;
+
+fn write_color(pixel_color: Color) {
+    println!(
+        "{} {} {}",
+        (255.999 * pixel_color.x()) as u32,
+        (255.999 * pixel_color.y()) as u32,
+        (255.999 * pixel_color.z()) as u32
+    );
+}
+
 fn main() {
     let image_width: u32 = 256;
     let image_height: u32 = 256;
@@ -6,16 +19,17 @@ fn main() {
     println!("{} {} {}", image_width, image_height, 255);
 
     for j in (0..image_height).rev() {
+        eprint!("\rScanlines remaining: {} ", j);
         for i in 0..image_width {
-            let r: f32 = i as f32 / (image_width - 1) as f32;
-            let g: f32 = j as f32 / (image_height - 1) as f32;
-            let b: f32 = 0.25;
+            let pixel_color: Color = Color::new(
+                i as f64 / (image_width - 1) as f64,
+                j as f64 / (image_height - 1) as f64,
+                0.25,
+            );
 
-            let ir: u32 = (255.999 * r) as u32;
-            let ig: u32 = (255.999 * g) as u32;
-            let ib: u32 = (255.999 * b) as u32;
-
-            println!("{} {} {}", ir, ig, ib);
+            write_color(pixel_color);
         }
     }
+    eprintln!();
+    eprintln!("Done");
 }
