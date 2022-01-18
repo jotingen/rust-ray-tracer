@@ -59,7 +59,7 @@ impl Mul for Vec3 {
         }
     }
 }
-trait Dot {
+pub trait Dot {
     fn dot(self, v: Vec3) -> f64;
 }
 impl Dot for Vec3 {
@@ -67,7 +67,7 @@ impl Dot for Vec3 {
         self.x * v.x + self.y * v.y + self.z * v.z
     }
 }
-trait Cross {
+pub trait Cross {
     fn cross(self, v: Vec3) -> Vec3;
 }
 impl Cross for Vec3 {
@@ -79,7 +79,7 @@ impl Cross for Vec3 {
         }
     }
 }
-trait UnitVector {
+pub trait UnitVector {
     fn unit_vector(self) -> Vec3;
 }
 impl UnitVector for Vec3 {
@@ -100,7 +100,7 @@ impl Mul<f64> for Vec3 {
 impl Div<f64> for Vec3 {
     type Output = Vec3;
     fn div(self, t: f64) -> Vec3 {
-        self * 1.0 / t
+        self * (1.0 / t)
     }
 }
 pub type Point3 = Vec3;
