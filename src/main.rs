@@ -13,20 +13,26 @@ fn write_color(pixel_color: Color) {
     );
 }
 
-fn hit_sphere(center: Point3, radius: f64, r: Ray) -> bool {
+fn hit_sphere(center: Point3, radius: f64, r: Ray) -> f64 {
     let oc: Vec3 = r.origin() - center;
     let a = r.direction().dot(r.direction());
     let b = 2.0 * oc.dot(r.direction());
     let c = oc.dot(oc) - radius*radius;
     let discriminant = b*b - 4.0*a*c;
-    discriminant > 0.0
+
+    if discriminant < 0.0 {
+        return -1.0;
+    }
+    ( -b - discriminant.sqrt() ) / (2.0 * a)
 }
 fn ray_color(r: Ray) -> Color {
-    if hit_sphere(Point3::new(0.0,0.0,-1.0), 0.5, r) {
-        return Color::new(1.0,0.0,0.0)
+    let mut t = hit_sphere(Point3::new(0.0,0.0,-1.0), 0.5, r); 
+    if t > 0.0 {
+        let N = (r.at(t) - Vec3::new(0.0,0.0,-1.0)).unit_vector();
+        return 0.5*Color::new(N.x()+1.0, N.y()+1.0, N.z()+1.0)
     }
     let unit_direction: Vec3 = r.direction().unit_vector();
-    let t: f64 = 0.5 * (unit_direction.y() + 1.0);
+    t = 0.5 * (unit_direction.y() + 1.0);
     Color::new(1.0, 1.0, 1.0) * (1.0 - t) + Color::new(0.5, 0.7, 1.0) * t
 }
 fn main() {
