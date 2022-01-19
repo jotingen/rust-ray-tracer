@@ -9,6 +9,7 @@ pub struct Vec3 {
     y: f64,
     z: f64,
 }
+
 impl Vec3 {
     pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
         Vec3 { x, y, z }
@@ -29,6 +30,7 @@ impl Vec3 {
         self.length_squared().sqrt()
     }
 }
+
 impl Add for Vec3 {
     type Output = Vec3;
     fn add(self, v: Vec3) -> Vec3 {
@@ -59,6 +61,7 @@ impl Mul for Vec3 {
         }
     }
 }
+
 pub trait Dot {
     fn dot(self, v: Vec3) -> f64;
 }
@@ -67,6 +70,7 @@ impl Dot for Vec3 {
         self.x * v.x + self.y * v.y + self.z * v.z
     }
 }
+
 pub trait Cross {
     fn cross(self, v: Vec3) -> Vec3;
 }
@@ -79,6 +83,7 @@ impl Cross for Vec3 {
         }
     }
 }
+
 pub trait UnitVector {
     fn unit_vector(self) -> Vec3;
 }
@@ -87,6 +92,7 @@ impl UnitVector for Vec3 {
         self / self.length()
     }
 }
+
 impl Mul<f64> for Vec3 {
     type Output = Vec3;
     fn mul(self, t: f64) -> Vec3 {
@@ -97,11 +103,29 @@ impl Mul<f64> for Vec3 {
         }
     }
 }
+impl Mul<Vec3> for f64 {
+    type Output = Vec3;
+    fn mul(self, t: Vec3) -> Vec3 {
+        Vec3 {
+            x: t.x * self,
+            y: t.y * self,
+            z: t.z * self,
+        }
+    }
+}
+
 impl Div<f64> for Vec3 {
     type Output = Vec3;
     fn div(self, t: f64) -> Vec3 {
         self * (1.0 / t)
     }
 }
+impl Div<Vec3> for f64 {
+    type Output = Vec3;
+    fn div(self, t: Vec3) -> Vec3 {
+        t * (1.0 / self)
+    }
+}
+
 pub type Point3 = Vec3;
 pub type Color = Vec3;
