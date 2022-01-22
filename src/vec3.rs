@@ -2,6 +2,7 @@ use std::ops::Add;
 use std::ops::Div;
 use std::ops::Mul;
 use std::ops::Sub;
+use std::ops::Neg;
 
 #[derive(Clone, Copy)]
 pub struct Vec3 {
@@ -58,6 +59,16 @@ impl Mul for Vec3 {
             x: self.x * v.x,
             y: self.y * v.y,
             z: self.z * v.z,
+        }
+    }
+}
+impl Neg for Vec3 {
+    type Output = Vec3;
+    fn neg(self) -> Vec3 {
+        Vec3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
         }
     }
 }
