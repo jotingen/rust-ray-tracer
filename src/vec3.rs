@@ -1,4 +1,5 @@
 use std::ops::Add;
+use std::ops::AddAssign;
 use std::ops::Div;
 use std::ops::Mul;
 use std::ops::Sub;
@@ -40,6 +41,13 @@ impl Add for Vec3 {
             y: self.y + v.y,
             z: self.z + v.z,
         }
+    }
+}
+impl AddAssign for Vec3 {
+    fn add_assign(&mut self, v: Vec3) {
+        self.x = self.x + v.x;
+        self.y = self.y + v.y;
+        self.z = self.z + v.z;
     }
 }
 impl Sub for Vec3 {
