@@ -25,7 +25,7 @@ impl Hittable for Sphere {
         let oc: Vec3 = r.origin() - self.center();
         let a = r.direction().length_squared();
         let half_b = oc.dot(r.direction());
-        let c = oc.length_squared() - self.radius() * self.radius();
+        let c = oc.length_squared() - self.radius().powi(2);
 
         let discriminant = half_b.powi(2) - a * c;
         if discriminant < 0.0 {
@@ -36,7 +36,7 @@ impl Hittable for Sphere {
         // Find the nearest root that lies in the acceptable range
         let mut root: f64 = (-half_b - sqrtd) / a;
         if root < t_min || t_max < root {
-            root = (half_b + sqrtd) / a;
+            root = (-half_b + sqrtd) / a;
             if root < t_min || t_max < root {
                 return false;
             }
@@ -47,6 +47,6 @@ impl Hittable for Sphere {
         let outward_normal = (rec.p - self.center()) / self.radius();
         rec.set_face_normal(&r, outward_normal);
 
-        return true;
+        true
     }
 }

@@ -25,17 +25,14 @@ impl Hittable for HittableList {
         let mut closest_so_far: f64 = t_max;
 
         for object_box in self.objects.iter() {
-	    let mut object = &**object_box;
+	    let object = &**object_box;
             if object.hit(r, t_min, closest_so_far, &mut temp_rec) {
                 hit_anything = true;
                 closest_so_far = temp_rec.t;
-    		rec.p = temp_rec.p;
-    		rec.normal = temp_rec.normal;   
-		rec.t = temp_rec.t;
-		rec.front_face = temp_rec.front_face;
+		*rec = temp_rec;
             }
         }
 
-        return hit_anything;
+        hit_anything
     }
 }
